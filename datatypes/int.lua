@@ -1,4 +1,4 @@
-require "type"
+require "datatypes/type"
 
 function read_integer_memory(address, bytes, signed)
 	local result = 0
