@@ -9,7 +9,7 @@ function Function:new(address, args)
     memory.registerexecute(address, function()
         arg_values = {}
         for i,arg in ipairs(object.args) do
-            arg_values[i] = stdcall_get(arg, i)
+            arg_values[i] = stdcall_get(arg, i - 1)
         end
         for i,callback in ipairs(object.on_call_callbacks) do
             callback(unpack(arg_values))
@@ -40,6 +40,5 @@ function stdcall_get(type, index)
     else
         value = u32:read(memory.getregister("r13") + index * 4)
     end
-
     return type:from_register(value)
 end

@@ -15,9 +15,17 @@ function DataUnit:set(value)
 end
 
 function DataUnit:on_read(callback)
-    memory.registerread(self.addr, self.size, callback)
+    memory.registerread(self.addr, self.size, function()
+        callback(self:get())
+    end)
 end
 
 function DataUnit:on_write(callback)
-    memory.registerwrite(self.addr, self.type.size, callback)
+    memory.registerwrite(self.addr, self.type.size, function()
+        callback(self:get())
+    end)
+end
+
+function DataUnit:string()
+    return self.type.string(self)
 end

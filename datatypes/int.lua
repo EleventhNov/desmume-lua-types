@@ -8,7 +8,8 @@ function datatype_int(bytes, signed)
 			value = to_signed(value, bytes)
 		end return value
 	end
-	return DataType:new(read, write, from_reg, bytes)
+	local string = function(integer) return string.format("%d", integer:get()) end
+	return DataType:new(read, write, from_reg, string, bytes)
 end
 
 u8 = datatype_int(1, false)

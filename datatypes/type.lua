@@ -1,8 +1,8 @@
 require "datatypes/unit"
 
 DataType = {}
-function DataType:new(read, write, from_reg, size)
-    local object = {read=read, write=write, from_reg=from_reg, size=size}
+function DataType:new(read, write, from_reg, string, size)
+    local object = {read=read, write=write, from_reg=from_reg, string=string, size=size}
     setmetatable(object, self)
     self.__index = self
     return object

@@ -2,7 +2,8 @@ Struct = {}
 function Struct:new(decl)
     local read = function(address) return read_struct(address, decl) end
     local size = calculate_struct_size(decl)
-    local object = DataType:new(read, nil, nil, size) -- TODO: Add write struct method!
+    local string = function() return struct_to_string(decl) end
+    local object = DataType:new(read, nil, nil, string, size) -- TODO: Add write struct method!
     object.decl = decl
     setmetatable(object, self)
     self.__index = self
@@ -17,12 +18,7 @@ function Struct:at(address)
         unit[name] = type:at(address + offset)
     end
 
-    unit.print = function()
-        for name,field in pairs(self.decl) do
-            printf("%s = %s", name, unit[name]:get())
-        end
-    end
-
+    unit.print = function() print(self.string()) end
     return unit
 end
 
@@ -39,5 +35,16 @@ function calculate_struct_size(decl)
     total = 0
     for name,field in pairs(decl) do
         total = total + field[2].size
-    end return total
+    end
+    return total
+end
+
+function struct_to_string(decl)
+    fields = {}
+    idx = 1
+    for name,field in pairs(decl) do
+        fields[idx] = string.format("%s: %s", name, unit[name]:string())
+        idx = idx + 1
+    end
+    return '{'..table.concat(fields, ", ")..'}'
 end
