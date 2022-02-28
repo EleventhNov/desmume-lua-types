@@ -1,3 +1,5 @@
+require "struct"
+
 function create_struct(struct_decl)
     return function(address)
         return Struct:new(address, struct_decl)
